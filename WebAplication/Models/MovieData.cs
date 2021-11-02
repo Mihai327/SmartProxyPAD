@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Common.Models;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Common.Models
+namespace WebAplication.Models
 {
-    public class Movie : MongoDocument
+    public class MovieData : MongoDocument
     {
         public string Name { get; set; }
         public List<string> Actors { get; set; }
         public decimal? Budget { get; set; }
         public string Description { get; set; }
-
     }
 }

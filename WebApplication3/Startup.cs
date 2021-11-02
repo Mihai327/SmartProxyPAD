@@ -1,4 +1,4 @@
-
+﻿
 
 using Common.Models;
 using Microsoft.AspNetCore.Builder;
@@ -29,13 +29,22 @@ namespace WebApplication3
             services.AddSingleton<IMongoDbSettings>(provider => provider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             //configurarea IMongoRepository pentru a putea fi injectat
             services.AddScoped<IMongoRepository<Movie>, MongoRepository<Movie>>();
-
             services.AddControllers();
+            //adăugăm serviciile Swagger
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //trebuie sa adaugam swagger middleware-ul la procesarea pipeline-ului cererilor HTTP
+            app.UseSwagger();
+            // SweggerUI acceseaza documentul json respectiv si genereaza automat documentatia despre proiectul MovieAPI
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Movie API v1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
